@@ -1,0 +1,36 @@
+:root {
+  --mui-palette-primary-main: #2A7B9B !important;
+  --mui-palette-primary-dark: #184c60 !important;
+  --mui-palette-primary-light: #d0e7f1 !important;
+  --mui-palette-SnackbarContent-bg: white !important;
+  --mui-palette-SnackbarContent-color: black !important
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #2A7B9B;
+  background: linear-gradient(180deg, rgba(42, 123, 155, 1) 0%, rgba(87, 182, 199, 1) 50%, rgb(95, 233, 203) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+button.MuiButtonBase-root {
+  text-transform: none;
+}
+
+button.MuiIconButton-root {
+  color: var(--mui-palette-primary-main)
+}
+
+h2.MuiDialogTitle-root {
+  font-weight: none;
+  font-size: 1.5em;
+  // color: var(--mui-palette-primary-dark)
+}
+
+.bold {
+  font-weight: bold;
+}

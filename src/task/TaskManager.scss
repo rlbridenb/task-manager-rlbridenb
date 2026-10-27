@@ -1,0 +1,89 @@
+// Task list classes
+.task-list {
+    width: 100%;
+    padding-top: 1em;
+}
+
+.task-list-flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+
+// Card classes
+.card {
+    padding: 20px;
+    margin: 80px;
+    border-radius: 12px !important;
+}
+
+.card-title-flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+
+// Task item classes
+.task-item {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 3px
+}
+
+.completed-task-item {
+    background-color: var(--mui-palette-primary-light);
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 5px;
+    padding: 3px
+}
+
+.task-item-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-height: 2.5em;
+}
+
+.task-item-main-info {
+    display: flex;
+    align-items: center;
+}   
+
+.task-item-sub-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 0px;
+    flex-wrap: wrap;
+    margin-left: 42px;
+    margin-right: 42px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--mui-palette-primary-main);
+}
+
+.task-date-and-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 0px;
+    max-height: 1.5em;
+}
+
+.no-tasks-text {
+    color: gray;
+    padding: 50px;
+}
+
+
+
+// Dialog classes
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 8px;
+}
