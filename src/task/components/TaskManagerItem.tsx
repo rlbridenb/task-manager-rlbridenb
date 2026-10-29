@@ -1,50 +1,38 @@
-import { useState } from "react";
-import * as React from "react";
+import { useContext, useState } from "react";
 import "../TaskManager.scss";
 import Checkbox from "@mui/material/Checkbox";
 import TaskManagerItemMenu from "./TaskManagerItemMenu";
 import { type TaskItem } from "../../types/types";
+import TaskContext from "../TaskContext";
 
 const TaskManagerItem = ({
-  taskList,
-  setTaskList,
-  setTaskDefaults,
-  setEditingTask,
-  setOpen,
-  setSnackbarMessage,
-  setOpenSnackbar,
   taskName,
   taskDescription,
   taskDueDate,
   taskStatus,
   taskIndex,
 }: {
-  taskList: TaskItem[];
-  setTaskList: Function;
-  setTaskDefaults: Function;
-  setEditingTask: Function;
-  setOpen: Function;
-  setSnackbarMessage: Function;
-  setOpenSnackbar: Function;
   taskName: string;
   taskDescription: string;
   taskDueDate: any;
   taskStatus: boolean;
   taskIndex: number;
 }) => {
+  const { taskListState } = useContext(TaskContext);
+  const [taskList, setTaskList] = taskListState;
   const [checked, setChecked] = useState(taskStatus);
 
   /**
-   *  Handles checkbox change event
+   * Handles checkbox change event
    * @param event ChangeEvent emitted when checkbox is checked/unchecked
    */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
     const taskListCopy = taskList;
     taskListCopy[taskIndex].completed = checked;
-    // taskListCopy.sort(
-    //   (a: TaskItem, b: TaskItem) => Number(b.completed) - Number(a.completed),
-    // );
+    taskListCopy.sort(
+      (a: TaskItem, b: TaskItem) => Number(b.completed) - Number(a.completed),
+    );
     setTaskList(taskListCopy);
   };
 
@@ -63,13 +51,6 @@ const TaskManagerItem = ({
           </p>
         </div>
         <TaskManagerItemMenu
-          taskList={taskList}
-          setTaskList={setTaskList}
-          setTaskDefaults={setTaskDefaults}
-          setEditingTask={setEditingTask}
-          setOpen={setOpen}
-          setSnackbarMessage={setSnackbarMessage}
-          setOpenSnackbar={setOpenSnackbar}
           taskName={taskName}
           taskDescription={taskDescription}
           taskDueDate={taskDueDate}
@@ -83,12 +64,16 @@ const TaskManagerItem = ({
               Completed
             </p>
           ) : (
-            <p className="bold">In-progress</p>
+            <p className="bold">To-do</p>
           )}
           {taskDueDate ? " • " : ""}
           <p aria-label="task-due-date">{taskDueDate}</p>
         </div>
-        {taskDescription ? <p>{taskDescription}</p> : ""}
+        {taskDescription ? (
+          <p className="task-description">{taskDescription}</p>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

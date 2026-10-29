@@ -1,16 +1,13 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Snackbar, { type SnackbarCloseReason } from "@mui/material/Snackbar";
+import { useContext } from "react";
+import TaskContext from "../TaskContext";
 
-export default function TaskSnackbar({
-  message,
-  openSnackbar,
-  setOpenSnackbar,
-}: {
-  message: string;
-  openSnackbar: boolean;
-  setOpenSnackbar: Function;
-}) {
+export default function TaskSnackbar({ message }: { message: string }) {
+  const { snackbarOpenState } = useContext(TaskContext);
+  const [snackbarOpen, setSnackbarOpen] = snackbarOpenState;
+
   /**
    * Handles closing snackbar
    * @param _event the snackbar onClose event
@@ -25,7 +22,7 @@ export default function TaskSnackbar({
     if (reason === "clickaway") {
       return;
     }
-    setOpenSnackbar(false);
+    setSnackbarOpen(false);
   };
 
   const action = (
@@ -37,7 +34,7 @@ export default function TaskSnackbar({
   return (
     <div>
       <Snackbar
-        open={openSnackbar}
+        open={snackbarOpen}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         autoHideDuration={4000}
         onClose={handleClose}

@@ -1,38 +1,40 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as React from "react";
 import "../TaskManager.scss";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import type { TaskItem } from "../../types/types";
 import dayjs from "dayjs";
+import TaskContext from "../TaskContext";
 
 const TaskManagerItemMenu = ({
-  taskList,
-  setTaskList,
-  setTaskDefaults,
-  setEditingTask,
-  setOpen,
-  setSnackbarMessage,
-  setOpenSnackbar,
   taskName,
   taskDescription,
   taskDueDate,
   taskIndex,
 }: {
-  taskList: TaskItem[];
-  setTaskList: Function;
-  setTaskDefaults: Function;
-  setEditingTask: Function;
-  setOpen: Function;
-  setSnackbarMessage: Function;
-  setOpenSnackbar: Function;
   taskName: string;
   taskDescription: string;
   taskDueDate: any;
   taskIndex: number;
 }) => {
+  const {
+    modalOpenState,
+    editingTaskState,
+    snackbarMessageState,
+    snackbarOpenState,
+    taskDefaultsState,
+    taskListState,
+  } = useContext(TaskContext);
+
+  const [_modalOpen, setModalOpen] = modalOpenState;
+  const [_editingTask, setEditingTask] = editingTaskState;
+  const [_snackbarMessage, setSnackbarMessage] = snackbarMessageState;
+  const [_snackbarOpen, setSnackbarOpen] = snackbarOpenState;
+  const [_taskDefaults, setTaskDefaults] = taskDefaultsState;
+  const [taskList, setTaskList] = taskListState;
+
   /**
    * Variables/functions for handling menu behavior and dynamically defining IDs
    * From MUI docs: https://mui.com/material-ui/react-menu/#basic-menu
@@ -74,7 +76,7 @@ const TaskManagerItemMenu = ({
     };
     setTaskDefaults(taskInfo);
     setEditingTask(true);
-    setOpen(true);
+    setModalOpen(true);
   };
 
   /**
@@ -93,7 +95,7 @@ const TaskManagerItemMenu = ({
       message = `Error deleting task: ${error}`;
     } finally {
       setSnackbarMessage(message);
-      setOpenSnackbar(true);
+      setSnackbarOpen(true);
       handleClose();
     }
   }

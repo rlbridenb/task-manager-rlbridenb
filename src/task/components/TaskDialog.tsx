@@ -9,35 +9,30 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import { type TaskItem } from "../../types/types";
 import "../TaskManager.scss";
+import TaskContext from "../TaskContext";
+import { useContext } from "react";
 
-const TaskDialog = ({
-  editingTask,
-  setEditingTask,
-  open,
-  setOpen,
-  setSnackbarMessage,
-  setOpenSnackbar,
-  taskDefaults,
-  setTaskDefaults,
-  taskList,
-  setTaskList,
-}: {
-  editingTask: boolean;
-  setEditingTask: Function;
-  open: boolean;
-  setOpen: Function;
-  setSnackbarMessage: Function;
-  setOpenSnackbar: Function;
-  taskDefaults: any;
-  setTaskDefaults: Function;
-  taskList: TaskItem[];
-  setTaskList: Function;
-}) => {
+const TaskDialog = () => {
+  const {
+    modalOpenState,
+    editingTaskState,
+    snackbarMessageState,
+    snackbarOpenState,
+    taskDefaultsState,
+    taskListState,
+  } = useContext(TaskContext);
+
+  const [modalOpen, setModalOpen] = modalOpenState;
+  const [editingTask, setEditingTask] = editingTaskState;
+  const [_snackbarMessage, setSnackbarMessage] = snackbarMessageState;
+  const [_snackbarOpen, setSnackbarOpen] = snackbarOpenState;
+  const [taskDefaults, setTaskDefaults] = taskDefaultsState;
+  const [taskList, setTaskList] = taskListState;
   /**
    * Handles closing modal and resetting state values (open, editingTask, taskDefaults)
    */
   const handleClose = () => {
-    setOpen(false);
+    setModalOpen(false);
     setEditingTask(false);
     const taskInfo = {
       index: 0,
@@ -96,16 +91,16 @@ const TaskDialog = ({
       message = `Error when creating task: ${error}`;
     }
     setSnackbarMessage(message);
-    setOpenSnackbar(true);
+    setSnackbarOpen(true);
   }
 
-	/**
-	 * Updates existing task in taskList with new values
-	 * @param taskName updated name of task
-	 * @param taskDescription updated description of task
-	 * @param taskDueDate updated task due date
-	 * @param taskIndex index of task in taskList
-	 */
+  /**
+   * Updates existing task in taskList with new values
+   * @param taskName updated name of task
+   * @param taskDescription updated description of task
+   * @param taskDueDate updated task due date
+   * @param taskIndex index of task in taskList
+   */
   function saveTask(
     taskName: string,
     taskDescription: string,
@@ -125,11 +120,16 @@ const TaskDialog = ({
       message = `Error when updating task: ${error}`;
     }
     setSnackbarMessage(message);
-    setOpenSnackbar(true);
+    setSnackbarOpen(true);
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="sm">
+    <Dialog
+      open={modalOpen}
+      onClose={handleClose}
+      fullWidth={true}
+      maxWidth="sm"
+    >
       <DialogTitle>{editingTask ? "Edit" : "Add"} Task</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit} id="task-form" className="form-container">

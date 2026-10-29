@@ -15,8 +15,12 @@
 // Card classes
 .card {
     padding: 20px;
-    margin: 80px;
+    margin: 70px;
     border-radius: 12px !important;
+
+    @media only screen and (max-width: 600px) {
+        margin: 20px; // Decrease card padding on small screens for better text readability
+    }
 }
 
 .card-title-flex-container {
@@ -25,7 +29,6 @@
     align-items: center;
     height: 50px;
 }
-
 
 // Task item classes
 .task-item {
@@ -43,9 +46,11 @@
 
 .task-item-info {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     max-height: 2.5em;
+    margin: 0;
 }
 
 .task-item-main-info {
@@ -56,7 +61,6 @@
 .task-item-sub-info {
     display: flex;
     flex-direction: column;
-    line-height: 0px;
     flex-wrap: wrap;
     margin-left: 42px;
     margin-right: 42px;
@@ -67,17 +71,22 @@
 
 .task-date-and-status {
     display: flex;
+    flex-wrap: wrap;
+    margin: 0;
     align-items: center;
     gap: 5px;
-    line-height: 0px;
-    max-height: 1.5em;
+    line-height: 0;
+}
+
+.task-description {
+    text-wrap: wrap;
+    margin: 0;
 }
 
 .no-tasks-text {
     color: gray;
     padding: 50px;
 }
-
 
 
 // Dialog classes
