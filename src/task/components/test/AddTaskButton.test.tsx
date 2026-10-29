@@ -1,19 +1,32 @@
-import { describe, expect, it, vi } from "vitest";
+import "@testing-library/jest-dom";
+import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import "@testing-library/jest-dom";
 import AddTaskButton from "../AddTaskButton";
+import { TaskProvider } from "../../TaskContext";
+import TaskDialog from "../TaskDialog";
+
+const Wrapper = ({ children }: { children: React.ReactNode }) => {
+  return <TaskProvider>{children}</TaskProvider>;
+};
 
 describe("Add Button Component tests", () => {
-  it("should render the button", () => {
-    render(<AddTaskButton setOpen={() => {}} />);
-    expect(screen.getByTestId("AddIcon")).toBeInTheDocument();
+  it("should render the button", async () => {
+    render(<AddTaskButton />, { wrapper: Wrapper });
+    const button = screen.getByTestId("AddIcon");
+    expect(button).toBeInTheDocument();
   });
 
-  it("should call setOpen when clicked", async () => {
-    const handleClick = vi.fn();
-    render(<AddTaskButton setOpen={handleClick} />);
+  it("should open TaskDialog when clicked", async () => {
+    render(
+      <>
+        <AddTaskButton />
+        <TaskDialog />
+      </>,
+      { wrapper: Wrapper },
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     await userEvent.click(screen.getByTestId("AddIcon"));
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });

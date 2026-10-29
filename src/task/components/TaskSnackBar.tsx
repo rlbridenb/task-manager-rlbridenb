@@ -1,7 +1,6 @@
-import * as React from "react";
+import { useContext } from "react";
 import Button from "@mui/material/Button";
 import Snackbar, { type SnackbarCloseReason } from "@mui/material/Snackbar";
-import { useContext } from "react";
 import TaskContext from "../TaskContext";
 
 export default function TaskSnackbar({ message }: { message: string }) {

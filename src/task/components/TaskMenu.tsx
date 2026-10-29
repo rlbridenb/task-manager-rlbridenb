@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
-import * as React from "react";
-import "../TaskManager.scss";
+import dayjs from "dayjs";
+import { useContext, useId, useState } from "react";
+import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import dayjs from "dayjs";
 import TaskContext from "../TaskContext";
+import "../TaskManager.scss";
 
 const TaskMenu = ({
   taskName,
@@ -39,7 +38,7 @@ const TaskMenu = ({
    * Variables/functions for handling menu behavior and dynamically defining IDs
    * From MUI docs: https://mui.com/material-ui/react-menu/#basic-menu
    */
-  const id = React.useId();
+  const id = useId();
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

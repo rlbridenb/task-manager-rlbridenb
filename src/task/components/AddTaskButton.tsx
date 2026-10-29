@@ -1,8 +1,8 @@
-import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
-import "../TaskManager.scss";
 import { useContext } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import IconButton from "@mui/material/IconButton";
 import TaskContext from "../TaskContext";
+import "../TaskManager.scss";
 
 const AddTaskButton = () => {
   const { dialogOpenState } = useContext(TaskContext);

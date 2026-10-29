@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import TaskContext from "../TaskContext";
-import { type TaskItem } from "../../types/types";
+import { type TaskInfo } from "../../types/types";
 import "../TaskManager.scss";
 
 const TaskDialog = () => {
@@ -78,13 +78,13 @@ const TaskDialog = () => {
   ) {
     let message = "";
     try {
-      const taskItem: TaskItem = {
+      const TaskInfo: TaskInfo = {
         name: taskName,
         description: taskDescription,
         dueDate: taskDueDate,
         completed: false,
       };
-      setTaskList([...taskList, taskItem]);
+      setTaskList([...taskList, TaskInfo]);
       localStorage.setItem("taskList", JSON.stringify(taskList));
       message = "Task created";
     } catch (error) {

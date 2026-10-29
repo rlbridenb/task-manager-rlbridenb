@@ -1,7 +1,7 @@
-import TaskManager from "./task/TaskManager";
-import "./App.scss";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { TaskProvider } from "./task/TaskContext";
+import TaskManager from "./task/TaskManager";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import "./App.scss";
 
 const theme = createTheme({ cssVariables: true });
 

@@ -1,43 +1,37 @@
-import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import TaskSnackbar from "../TaskSnackBar";
 import "@testing-library/jest-dom";
+import { act, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import TaskSnackbar from "../TaskSnackBar";
+import TaskContext from "../../TaskContext";
+import userEvent from "@testing-library/user-event";
+import { type ReactNode } from "react";
+
+let snackbarOpen = true;
+const setSnackbarOpen = vi.fn(() => {
+  snackbarOpen = !snackbarOpen;
+});
+const snackbarOpenState = [snackbarOpen, setSnackbarOpen];
+const Wrapper = ({ children }: { children: ReactNode }) => {
+  return (
+    <TaskContext.Provider value={{ snackbarOpenState: snackbarOpenState }}>
+      {children}
+    </TaskContext.Provider>
+  );
+};
 
 describe("Task Snackbar tests", () => {
   it("should render the snackbar", () => {
-    const setOpenSnackbar = vi.fn();
-    let openSnackbar = true;
-
-    render(
-      <TaskSnackbar
-        message={"Test message"}
-        openSnackbar={openSnackbar}
-        setOpenSnackbar={setOpenSnackbar}
-      />,
-    );
-
-    expect(screen.getByRole("presentation")).toBeInTheDocument();
+    render(<TaskSnackbar message={"Test message"} />, { wrapper: Wrapper });
+    expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
   it("should close when action button clicked", async () => {
-    var openSnackbar = true;
-    const setOpenSnackbar = vi.fn(() => {
-      openSnackbar = !openSnackbar;
-    });
-
-    render(
-      <TaskSnackbar
-        message={"Test message"}
-        openSnackbar={openSnackbar}
-        setOpenSnackbar={setOpenSnackbar}
-      />,
-    );
-
-    expect(screen.getByRole("presentation")).toBeInTheDocument();
-
-    await userEvent.click(screen.getByText("Ok"));
-    expect(setOpenSnackbar).toHaveBeenCalledTimes(1);
-    expect(openSnackbar).toBeFalsy();
+    render(<TaskSnackbar message={"Test message"} />, { wrapper: Wrapper });
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    await userEvent.click(screen.getByText("Ok"))
+    waitFor(async () => {
+      const snackbarEl = await screen.getByText("Test message")
+      expect(snackbarEl).not.toBeInTheDocument()
+    })
   });
 });

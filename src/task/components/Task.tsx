@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import TaskContext from "../TaskContext";
-import { type TaskItem } from "../../types/types";
+import { type TaskInfo } from "../../types/types";
 import TaskMenu from "./TaskMenu";
 import "../TaskManager.scss";
 
@@ -31,7 +31,7 @@ const Task = ({
     const taskListCopy = taskList;
     taskListCopy[taskIndex].completed = checked;
     taskListCopy.sort(
-      (a: TaskItem, b: TaskItem) => Number(b.completed) - Number(a.completed),
+      (a: TaskInfo, b: TaskInfo) => Number(b.completed) - Number(a.completed),
     );
     setTaskList(taskListCopy);
   };

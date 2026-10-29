@@ -1,19 +1,25 @@
-import { type ReactNode, createContext, useState } from "react";
-import type { TaskItem } from "../types/types";
+import {
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  createContext,
+  useState,
+} from "react";
+import type { TaskInfo } from "../types/types";
 
 interface TaskContext {
-  taskListState: [TaskItem[], React.Dispatch<React.SetStateAction<TaskItem[]>>];
-  editingTaskState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  dialogOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  snackbarOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  snackbarMessageState: [string, React.Dispatch<React.SetStateAction<string>>];
-  taskDefaultsState: [any, React.Dispatch<React.SetStateAction<any>>];
+  taskListState: [TaskInfo[], Dispatch<SetStateAction<TaskInfo[]>>];
+  editingTaskState: [boolean, Dispatch<SetStateAction<boolean>>];
+  dialogOpenState: [boolean, Dispatch<SetStateAction<boolean>>];
+  snackbarOpenState: [boolean, Dispatch<SetStateAction<boolean>>];
+  snackbarMessageState: [string, Dispatch<SetStateAction<string>>];
+  taskDefaultsState: [any, Dispatch<SetStateAction<any>>];
 }
 
-const TaskContext = createContext<TaskContext>({} as TaskContext);
+const TaskContext = createContext<any>({});
 
 export const TaskProvider = (props: { children: ReactNode }) => {
-  const [taskList, setTaskList] = useState<TaskItem[]>([]);
+  const [taskList, setTaskList] = useState<TaskInfo[]>([]);
   const [editingTask, setEditingTask] = useState<boolean>(false);
   const [dialogOpen, setdialogOpen] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
@@ -28,9 +34,9 @@ export const TaskProvider = (props: { children: ReactNode }) => {
   return (
     <TaskContext.Provider
       value={{
-        taskListState: [taskList, setTaskList] as const,
-        editingTaskState: [editingTask, setEditingTask] as const,
-        dialogOpenState: [dialogOpen, setdialogOpen] as const,
+        taskListState: [taskList, setTaskList],
+        editingTaskState: [editingTask, setEditingTask],
+        dialogOpenState: [dialogOpen, setdialogOpen],
         snackbarOpenState: [snackbarOpen, setSnackbarOpen],
         snackbarMessageState: [snackbarMessage, setSnackbarMessage],
         taskDefaultsState: [taskDefaults, setTaskDefaults],
