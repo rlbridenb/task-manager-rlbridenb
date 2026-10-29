@@ -1,14 +1,16 @@
+import { useContext } from "react";
 import Card from "@mui/material/Card";
 import AddTaskButton from "./components/AddTaskButton";
-import TaskDialog from "./components/TaskDialog";
-import "./TaskManager.scss";
 import TaskContext from "./TaskContext";
-import { useContext } from "react";
-import TaskManagerItemsList from "./components/TaskManagerItemsList";
+import TaskDialog from "./components/TaskDialog";
+import TaskList from "./components/TaskList";
+import TaskSnackbar from "./components/TaskSnackBar";
+import "./TaskManager.scss";
 
 const TaskManager = () => {
-  const { taskListState } = useContext(TaskContext);
+  const { taskListState, snackbarMessageState } = useContext(TaskContext);
   const [taskList, _setTaskList] = taskListState;
+  const [snackbarMessage, _setSnackbarMessage] = snackbarMessageState;
 
   return (
     <>
@@ -19,18 +21,14 @@ const TaskManager = () => {
         </div>
         <div className="task-list-flex-container">
           {taskList.length > 0 ? (
-            <TaskManagerItemsList />
+            <TaskList />
           ) : (
             <p className="no-tasks-text">No tasks to display</p>
           )}
         </div>
       </Card>
       <TaskDialog />
-      {/* <TaskSnackbar
-        message={snackbarMessage}
-        openSnackbar={openSnackbar}
-        setOpenSnackbar={setOpenSnackbar}
-      /> */}
+      <TaskSnackbar message={snackbarMessage} />
     </>
   );
 };

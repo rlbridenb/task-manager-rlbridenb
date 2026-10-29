@@ -8,7 +8,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import dayjs from "dayjs";
 import TaskContext from "../TaskContext";
 
-const TaskManagerItemMenu = ({
+const TaskMenu = ({
   taskName,
   taskDescription,
   taskDueDate,
@@ -20,7 +20,7 @@ const TaskManagerItemMenu = ({
   taskIndex: number;
 }) => {
   const {
-    modalOpenState,
+    dialogOpenState,
     editingTaskState,
     snackbarMessageState,
     snackbarOpenState,
@@ -28,7 +28,7 @@ const TaskManagerItemMenu = ({
     taskListState,
   } = useContext(TaskContext);
 
-  const [_modalOpen, setModalOpen] = modalOpenState;
+  const [_dialogOpen, setdialogOpen] = dialogOpenState;
   const [_editingTask, setEditingTask] = editingTaskState;
   const [_snackbarMessage, setSnackbarMessage] = snackbarMessageState;
   const [_snackbarOpen, setSnackbarOpen] = snackbarOpenState;
@@ -76,7 +76,7 @@ const TaskManagerItemMenu = ({
     };
     setTaskDefaults(taskInfo);
     setEditingTask(true);
-    setModalOpen(true);
+    setdialogOpen(true);
   };
 
   /**
@@ -139,4 +139,4 @@ const TaskManagerItemMenu = ({
   );
 };
 
-export default TaskManagerItemMenu;
+export default TaskMenu;

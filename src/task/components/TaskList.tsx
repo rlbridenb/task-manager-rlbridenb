@@ -1,18 +1,18 @@
-import Stack from "@mui/material/Stack";
-import TaskManagerItem from "./TaskManagerItem";
-import { type TaskItem } from "../../types/types";
-import "../TaskManager.scss";
-import TaskContext from "../TaskContext";
 import { useContext } from "react";
+import Stack from "@mui/material/Stack";
+import Task from "./Task";
+import { type TaskItem } from "../../types/types";
+import TaskContext from "../TaskContext";
+import "../TaskManager.scss";
 
-const TaskManagerItemsList = () => {
+const TaskList = () => {
   const { taskListState } = useContext(TaskContext);
   const [taskList, _setTaskList] = taskListState;
 
   const listItems = (
     <Stack spacing={2} className="task-list">
       {taskList.map((task: TaskItem, index: number) => (
-        <TaskManagerItem
+        <Task
           key={index}
           taskIndex={index}
           taskName={task.name}
@@ -27,4 +27,4 @@ const TaskManagerItemsList = () => {
   return listItems;
 };
 
-export default TaskManagerItemsList;
+export default TaskList;

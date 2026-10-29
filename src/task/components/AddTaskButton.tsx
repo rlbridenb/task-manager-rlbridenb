@@ -5,11 +5,11 @@ import { useContext } from "react";
 import TaskContext from "../TaskContext";
 
 const AddTaskButton = () => {
-  const { modalOpenState } = useContext(TaskContext);
-  const [_, setModalOpen] = modalOpenState;
+  const { dialogOpenState } = useContext(TaskContext);
+  const [_, setdialogOpen] = dialogOpenState;
 
   function handleClick() {
-    setModalOpen(true);
+    setdialogOpen(true);
   }
 
   return (

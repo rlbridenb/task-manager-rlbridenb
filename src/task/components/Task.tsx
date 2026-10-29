@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import "../TaskManager.scss";
 import Checkbox from "@mui/material/Checkbox";
-import TaskManagerItemMenu from "./TaskManagerItemMenu";
-import { type TaskItem } from "../../types/types";
 import TaskContext from "../TaskContext";
+import { type TaskItem } from "../../types/types";
+import TaskMenu from "./TaskMenu";
+import "../TaskManager.scss";
 
-const TaskManagerItem = ({
+const Task = ({
   taskName,
   taskDescription,
   taskDueDate,
@@ -50,7 +50,7 @@ const TaskManagerItem = ({
             {taskName}
           </p>
         </div>
-        <TaskManagerItemMenu
+        <TaskMenu
           taskName={taskName}
           taskDescription={taskDescription}
           taskDueDate={taskDueDate}
@@ -79,4 +79,4 @@ const TaskManagerItem = ({
   );
 };
 
-export default TaskManagerItem;
+export default Task;

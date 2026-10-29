@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Button from "@mui/material/Button";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -7,14 +8,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
+import TaskContext from "../TaskContext";
 import { type TaskItem } from "../../types/types";
 import "../TaskManager.scss";
-import TaskContext from "../TaskContext";
-import { useContext } from "react";
 
 const TaskDialog = () => {
   const {
-    modalOpenState,
+    dialogOpenState,
     editingTaskState,
     snackbarMessageState,
     snackbarOpenState,
@@ -22,7 +22,7 @@ const TaskDialog = () => {
     taskListState,
   } = useContext(TaskContext);
 
-  const [modalOpen, setModalOpen] = modalOpenState;
+  const [dialogOpen, setdialogOpen] = dialogOpenState;
   const [editingTask, setEditingTask] = editingTaskState;
   const [_snackbarMessage, setSnackbarMessage] = snackbarMessageState;
   const [_snackbarOpen, setSnackbarOpen] = snackbarOpenState;
@@ -32,7 +32,7 @@ const TaskDialog = () => {
    * Handles closing modal and resetting state values (open, editingTask, taskDefaults)
    */
   const handleClose = () => {
-    setModalOpen(false);
+    setdialogOpen(false);
     setEditingTask(false);
     const taskInfo = {
       index: 0,
@@ -125,7 +125,7 @@ const TaskDialog = () => {
 
   return (
     <Dialog
-      open={modalOpen}
+      open={dialogOpen}
       onClose={handleClose}
       fullWidth={true}
       maxWidth="sm"
