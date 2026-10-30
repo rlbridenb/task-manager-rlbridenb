@@ -1,7 +1,7 @@
 :root {
   --mui-palette-primary-main: #277392 !important;
   --mui-palette-primary-dark: #184c60 !important;
-  --mui-palette-primary-light: #def9fe !important;
+  --mui-palette-primary-light: #defdfe !important;
   --mui-palette-SnackbarContent-bg: white !important;
   --mui-palette-SnackbarContent-color: black !important
 }
@@ -11,6 +11,10 @@
 
   h1 {
     font-weight: lighter;
+  }
+
+  p {
+    margin: 0;
   }
 }
 
@@ -25,15 +29,13 @@ button.MuiButtonBase-root {
   text-transform: none;
 }
 
-// button.MuiIconButton-root {
-//   color: var(--mui-palette-primary-main)
-// }
+button.MuiIconButton-root {
+  color: var(--mui-palette-primary-main)
+}
 
 h2.MuiDialogTitle-root {
   font-weight: none;
   font-size: 1.5em;
-  // padding-bottom: 0;
-  // color: var(--mui-palette-primary-dark)
 }
 
 .bold {

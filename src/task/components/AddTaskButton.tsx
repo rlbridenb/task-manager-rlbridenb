@@ -5,10 +5,17 @@ import TaskContext from "../TaskContext";
 import "../TaskManager.scss";
 
 const AddTaskButton = () => {
-  const { dialogOpenState } = useContext(TaskContext);
-  const [_, setdialogOpen] = dialogOpenState;
+  const { dialogOpenState, taskDefaultsState } = useContext(TaskContext);
+  const [_dialogOpen, setdialogOpen] = dialogOpenState;
+  const [_taskDefaults, setTaskDefaults] = taskDefaultsState;
 
   function handleClick() {
+    setTaskDefaults({
+      index: 0,
+      name: "",
+      description: "",
+      dueDate: null,
+    });
     setdialogOpen(true);
   }
 

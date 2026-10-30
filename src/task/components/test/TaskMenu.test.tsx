@@ -1,51 +1,13 @@
 import "@testing-library/jest-dom";
-import { type ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import TaskContext from "../../TaskContext";
+import userEvent from "@testing-library/user-event";
+import { TaskProvider } from "../../TaskContext";
+import TaskDialog from "../TaskDialog";
 import TaskMenu from "../TaskMenu";
-import type { TaskInfo } from "../../../types/types";
 
-let dialogOpen = true;
-let editingTask = false;
-let snackbarMessage = "Test message";
-let snackbarOpen = false;
-let taskDefaults = {};
-let taskList: TaskInfo[] = [];
-
-const setDialogOpen = vi.fn(() => {
-  dialogOpen = !dialogOpen;
-});
-const setEditingTask = vi.fn(() => {
-  editingTask = !editingTask;
-});
-const setSnackbarMessage = vi.fn();
-const setSnackbarOpen = vi.fn();
-const setTaskDefaults = vi.fn((any) => (taskDefaults = any));
-const setTaskList = vi.fn((any) => (taskList = any));
-
-const dialogOpenState = [dialogOpen, setDialogOpen];
-let editingTaskState = [editingTask, setEditingTask];
-const snackbarMessageState = [snackbarMessage, setSnackbarMessage];
-const snackbarOpenState = [snackbarOpen, setSnackbarOpen];
-let taskDefaultsState = [taskDefaults, setTaskDefaults];
-const taskListState = [taskList, setTaskList];
-
-const Wrapper = ({ children }: { children: ReactNode }) => {
-  return (
-    <TaskContext.Provider
-      value={{
-        dialogOpenState: dialogOpenState,
-        editingTaskState: editingTaskState,
-        snackbarMessageState: snackbarMessageState,
-        snackbarOpenState: snackbarOpenState,
-        taskDefaultsState: taskDefaultsState,
-        taskListState: taskListState,
-      }}
-    >
-      {children}
-    </TaskContext.Provider>
-  );
+const Wrapper = ({ children }: { children: React.ReactNode }) => {
+  return <TaskProvider>{children}</TaskProvider>;
 };
 
 describe("TaskMenu tests", () => {
@@ -62,7 +24,28 @@ describe("TaskMenu tests", () => {
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
-  it("should open modal when ", async () => {
+  it("should open dialog when edit is clicked", async () => {
+    render(
+      <>
+        <TaskMenu
+          taskName="Task name"
+          taskDescription="Task description text goes here"
+          taskDueDate="10/26/2026"
+          taskIndex={0}
+        />
+        <TaskDialog />
+      </>,
+      { wrapper: Wrapper },
+    );
+    await userEvent.click(screen.getByRole("button"));
+    await userEvent.click(
+      screen.queryAllByRole("menuitem")[0] as HTMLAnchorElement,
+    );
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("should delete task when delete is clicked", async () => {
     render(
       <TaskMenu
         taskName="Task name"
@@ -72,6 +55,18 @@ describe("TaskMenu tests", () => {
       />,
       { wrapper: Wrapper },
     );
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button"));
+    await userEvent.click(
+      screen.queryAllByRole("menuitem")[1] as HTMLAnchorElement,
+    );
+
+    /**
+     * I would have preferred to check the taskList and see if the provided task
+     * still existed, but I was not sure how to access it since it is within the TaskProvider.
+     * This was the next best option I could think of, because if the button is no longer there,
+     * then the code reached 'handleClose', so 'deleteTask()' was called. However it is possible
+     * the delete operation failed and handleClose was still reached.
+     */
+    expect(screen.queryAllByRole("menuitem")[1] as HTMLElement).toBeUndefined();
   });
 });

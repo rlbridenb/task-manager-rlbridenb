@@ -26,7 +26,7 @@ const TaskDialog = () => {
   const [editingTask, setEditingTask] = editingTaskState;
   const [_snackbarMessage, setSnackbarMessage] = snackbarMessageState;
   const [_snackbarOpen, setSnackbarOpen] = snackbarOpenState;
-  const [taskDefaults, setTaskDefaults] = taskDefaultsState;
+  const [taskDefaults, _setTaskDefaults] = taskDefaultsState;
   const [taskList, setTaskList] = taskListState;
   /**
    * Handles closing modal and resetting state values (open, editingTask, taskDefaults)
@@ -34,13 +34,6 @@ const TaskDialog = () => {
   const handleClose = () => {
     setdialogOpen(false);
     setEditingTask(false);
-    const taskInfo = {
-      index: 0,
-      name: "",
-      description: "",
-      dueDate: null,
-    };
-    setTaskDefaults(taskInfo);
   };
 
   /**
@@ -84,7 +77,10 @@ const TaskDialog = () => {
         dueDate: taskDueDate,
         completed: false,
       };
-      setTaskList([...taskList, TaskInfo]);
+      const taskListCopy = [...taskList, TaskInfo].sort(
+        (a: TaskInfo, b: TaskInfo) => Number(a.completed) - Number(b.completed),
+      );
+      setTaskList(taskListCopy);
       localStorage.setItem("taskList", JSON.stringify(taskList));
       message = "Task created";
     } catch (error) {

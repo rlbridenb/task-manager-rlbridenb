@@ -74,7 +74,7 @@ Because due date is an optional field, I wanted to be able to quickly clear the 
 
 One tradeoff I made was opting to use React Context for cleaner, more maintainable code at the cost of unit tests being more difficult to write. My initial implementation of this application involved a lot of prop drilling, which made the code difficult to understand and harder to maintain. I discovered Context as a solution to this problem, but as a result I found it more difficult to write unit tests for my components. When I was passing state variables and functions as properties, it was easy for me to mock them in my test files and pass those to the component. But once I switched my components to use Context, I could no longer do this and needed to find a different way to get this information to my components.
 
-At first, the examples I found online did not work for various reasons, such as TypeErrors that could not be resolved or errors when trying to declare useState() within my test files. In the end, the approach I decided on was to set the type of my TaskContext to any. I would have liked to have kept the type specificity, but this change allowed me to essentially mock the TaskContext in my unit tests and implement some of the proposed solutions I found on sites like StackOverflow and GitHub discussions. With more time, I would like explore additional approaches to testing components that use Context and see if there is a solution that allows me to keep the typing of my TaskContext intact.
+At first, the examples I found online did not work for various reasons, such as TypeErrors that could not be resolved or errors when trying to declare useState() within my test files. In the end, the approach I decided on was to set the type of my TaskContext to any. I would have liked to have kept the type specificity, but this change allowed me to essentially mock the TaskContext in my unit tests and implement some of the proposed solutions I found on sites like StackOverflow and GitHub discussions. However, this was still not a perfect solution as it remained challenging to test certain behaviors, such as the TaskMenu deleting an item from the task list. With more time, I would like explore additional approaches to testing components that use Context and see if there is a better approach and if there is a solution that allows me to keep the typing of my TaskContext intact.
 
 ## Future Improvements
 
@@ -82,11 +82,17 @@ At first, the examples I found online did not work for various reasons, such as 
 
 One issue I would like to resolve is the `Property 'toBeInTheDocument' does not exist on type 'Assertion<void, HTMLElement>'` error in the IDE for the `.toBeInTheDocument()` calls in tests. None of the solutions presented on StackOverlow, GitHub Issues, or other community resources worked for my environment. After enough time I decided to abandon the issue because the tests were working despite the error, and there were other higher priority items I needed to address. But for someone viewing the application in their IDE it may be confusing to see unresolved errors in the test files, so with more time this is an issue I would like to fix.
 
+### Improve state management in the TaskList component
+
+Another issue I ran into was getting the TaskList component to re-render when the checkbox on a task was clicked. Unless this component is re-rendered, changes like the completed task moving to the bottom of the list are not displayed until the state changes somewhere else, like when opening the modal. I was confused by this because I was calling `setTaskList()` to update taskList, so I would expect the TaskList component to re-render.
+
+I searched for resources and similar examples to try understand and fix the problem, but in the end the only working solution I found was to use [this recommendation](https://legacy.reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate) from the legacy React docs and create a separate state variable and method to essentially force the component to re-render. With more time, I would like to research this issue further to understand why the component is not re-rendering when the state changes, and to see if there is a cleaner solution to the problem.
+
 ### UI Enhancements
 
 Below is a list of UI enhancements I would make with additional time:
 
-- When a task's due date has passed, change the color of the date to red and add an icon text to it (e.g., warning symbol, exclamation point in a circle) to denote that it is overdue.
+- When a task's due date has passed, change the color of the date to red and add an icon next to it (e.g., warning symbol, exclamation point in a circle) to denote that it is overdue.
 - The ability to add an optional priority marker to tasks. Tasks can be marked as low, medium, or high priority. This could be displayed in the UI through the use of symbols like exclamation points (!, !!, !!!), adding the priority text to the screen (e.g., to the left of the status + due date, so it would read "Low • To-do • 10/29/2026), or another similar approach.
 - Sort tasks by their due date from nearest to furthest. Tasks with no due date automatically get sorted to the bottom.
 - The ability to manually reorder tasks in the list.
