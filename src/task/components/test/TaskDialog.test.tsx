@@ -1,12 +1,11 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import TaskSnackbar from "../TaskSnackBar";
-import TaskContext from "../../TaskContext";
-import userEvent from "@testing-library/user-event";
 import { type ReactNode } from "react";
-import { type TaskInfo } from "../../../types/types";
+import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import TaskContext from "../../TaskContext";
 import TaskDialog from "../TaskDialog";
+import { type TaskInfo } from "../../../types/types";
 
 let dialogOpen = true;
 let editingTask = false;
@@ -58,17 +57,21 @@ describe("Task Dialog tests", () => {
 
   it("should require name field", async () => {
     render(<TaskDialog />, { wrapper: Wrapper });
-    let requiredNameField = screen.getAllByRole('textbox')[0] as HTMLAnchorElement;;
-    expect(requiredNameField).toBeInvalid()
+    let requiredNameField = screen.getAllByRole(
+      "textbox",
+    )[0] as HTMLAnchorElement;
+    expect(requiredNameField).toBeInvalid();
     await userEvent.type(requiredNameField, "Task Name");
-    expect(requiredNameField).toBeValid()
+    expect(requiredNameField).toBeValid();
   });
 
   it("add new task on save", async () => {
     render(<TaskDialog />, { wrapper: Wrapper });
-    let requiredNameField = screen.getAllByRole('textbox')[0] as HTMLAnchorElement;;
+    let requiredNameField = screen.getAllByRole(
+      "textbox",
+    )[0] as HTMLAnchorElement;
     await userEvent.type(requiredNameField, "Task Name");
-    await userEvent.click(screen.getByText('Save'));
-    expect(requiredNameField).toBeValid()
+    await userEvent.click(screen.getByText("Submit"));
+    expect(requiredNameField).toBeValid();
   });
 });

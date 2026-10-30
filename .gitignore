@@ -14,6 +14,7 @@ dist-ssr
 
 # Vitest reports and artifacts
 .vitest/
+coverage
 
 # Editor directories and files
 .vscode/*

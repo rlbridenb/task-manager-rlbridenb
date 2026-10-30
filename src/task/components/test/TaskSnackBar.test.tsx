@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { type ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import TaskSnackbar from "../TaskSnackBar";
 import TaskContext from "../../TaskContext";
-import userEvent from "@testing-library/user-event";
-import { type ReactNode } from "react";
 
 let snackbarOpen = true;
 const setSnackbarOpen = vi.fn(() => {
@@ -28,10 +28,10 @@ describe("Task Snackbar tests", () => {
   it("should close when action button clicked", async () => {
     render(<TaskSnackbar message={"Test message"} />, { wrapper: Wrapper });
     expect(screen.getByRole("alert")).toBeInTheDocument();
-    await userEvent.click(screen.getByText("Ok"))
+    await userEvent.click(screen.getByText("Ok"));
     waitFor(async () => {
-      const snackbarEl = await screen.getByText("Test message")
-      expect(snackbarEl).not.toBeInTheDocument()
-    })
+      const snackbarEl = await screen.getByText("Test message");
+      expect(snackbarEl).not.toBeInTheDocument();
+    });
   });
 });

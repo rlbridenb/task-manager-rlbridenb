@@ -167,7 +167,7 @@ const TaskDialog = () => {
       <DialogActions style={{ padding: "15px" }}>
         <Button onClick={handleClose}>Cancel</Button>
         <Button variant="contained" type="submit" form="task-form">
-          Save
+          Submit
         </Button>
       </DialogActions>
     </Dialog>
