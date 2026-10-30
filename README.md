@@ -63,6 +63,7 @@ Below are the methods I used to test the accessibility of my application:
 3. Verified that all actions (add/edit/delete/complete) could be completed using only the keyboard and that the appropriate keyboard inputs could be used to control the application (e.g., Escape to close dialog, spacebar to check the checkbox, arrow keys to navigate the item menu, etc.).
 4. Turned on Mac VoiceOver and used only keyboard controls to use the application. Checked that the information being read out by the screen reader made sense and could be understood without relying on visual cues in the UI.
 5. Ensured all form fields were properly labeled, and used semantic HTML tags when possible.
+6. Checked that the contrast ratio between text color and background color was at least 4.5:1 across the application.
 
 ### Known Limitations
 
