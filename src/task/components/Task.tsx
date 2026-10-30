@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import TaskContext from "../TaskContext";
 import { type TaskInfo } from "../../types/types";
@@ -11,29 +11,46 @@ const Task = ({
   taskDueDate,
   taskStatus,
   taskIndex,
+  refreshList,
 }: {
   taskName: string;
   taskDescription: string;
   taskDueDate: any;
   taskStatus: boolean;
   taskIndex: number;
+  refreshList: Function;
 }) => {
-  const { taskListState } = useContext(TaskContext);
+  const { taskListState, snackbarMessageState, snackbarOpenState } =
+    useContext(TaskContext);
   const [taskList, setTaskList] = taskListState;
+  const [_snackbarMessage, setSnackbarMessage] = snackbarMessageState;
+  const [_snackbarOpen, setSnackbarOpen] = snackbarOpenState;
   const [checked, setChecked] = useState(taskStatus);
+
+  useEffect(() => {
+    setChecked(taskStatus);
+  });
 
   /**
    * Handles checkbox change event
    * @param event ChangeEvent emitted when checkbox is checked/unchecked
    */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    const taskListCopy = taskList;
-    taskListCopy[taskIndex].completed = checked;
-    taskListCopy.sort(
-      (a: TaskInfo, b: TaskInfo) => Number(b.completed) - Number(a.completed),
-    );
-    setTaskList(taskListCopy);
+    try {
+      setChecked(event.target.checked);
+      const taskListCopy = taskList;
+      taskListCopy[taskIndex].completed = event.target.checked;
+      taskListCopy.sort(
+        (a: TaskInfo, b: TaskInfo) => Number(a.completed) - Number(b.completed),
+      );
+      localStorage.setItem("taskList", JSON.stringify(taskListCopy));
+      setTaskList(taskListCopy);
+      refreshList();
+    } catch (error) {
+      const message = `Error when updating task status: ${error}`;
+      setSnackbarMessage(message);
+      setSnackbarOpen(true);
+    }
   };
 
   return (

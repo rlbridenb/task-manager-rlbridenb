@@ -16,7 +16,7 @@ Once running, it is accessible at http://localhost:5173/ in your browser.
 
 Run `npm run test` to run the application test suite.
 
-To view test coverage, run `npm run coverage`. The coverage report is located in `src/task/components/test/coverage`, the `index.html` page can be opened within a browser to view coverage report UI.
+To view test coverage, run `npm run coverage`. The coverage report is located in `src/task/components/test/coverage`, the `index.html` page can be opened within a browser to view the coverage report UI.
 
 ## Design Decisions
 
@@ -40,9 +40,9 @@ The specific UI library I selected was Material UI (MUI). The reason I chose thi
 
 ### Feedback after actions
 
-When a user adds edits, or deletes a task, I wanted there to be a message or feedback to indicate if the action was successful. After browsing the MUI docs, I decided that the Snackbar component would be a good fit for acheiving this goal because it is built for the reason of displaying a temporary message to users. I found this to be important for these 3 operations because, depending on the situation, there may not be many visual indicators. For example, if the task list only has 1 item in it, it would be easy to tell if adding a new task was successful. But if the task list had 50 items, it would be a lot more difficult to visually identify if the task was added. Additionally, if the operation returns an error, it is important this gets presented to the user so they know both that the operation failed and the reason why.
+When a user adds edits, or deletes a task, I wanted there to be a message or feedback to indicate if the action was successful. After browsing the MUI docs, I decided that the Snackbar component would be a good fit for acheiving this goal because it is built for the reason of displaying a temporary message to users. I found this to be important for these 3 operations because, depending on the situation, there may not be many clear visual indicators of success. For example, if the task list only has 1 item, it would be easy to tell if adding a new task was successful. But if the task list had 50 items, it would be a lot more difficult to visually identify if the task was added. Additionally, if the operation returns an error, it is important this gets presented to the user so they know both that the operation failed and the reason why.
 
-For completing a task, I took a slightly different approach. I decided that between the task status changing from "To-do" to "Completed", the color of the task item changing, and the checkbox itself being filled in, there was already enough feedback to convey that the task was successfully marked as completed. Adding the Snackbar would be redundant and add more clutter and information to the screen than was necessary But it is still important to surface information to the user if application fails to mark a task completed, so the Snackbar will still appear if this operation returns an error.
+For completing a task, I took a slightly different approach. I decided that between the task status changing from "To-do" to "Completed", the color of the task item changing, and the checkbox itself being filled in, there was already enough feedback to convey that the task was successfully marked as completed. Adding the Snackbar would be redundant and add more clutter and information to the screen than was necessary. But it is still important to surface information to the user if the application fails to mark a task completed, so the Snackbar will still appear if this operation returns an error.
 
 ## Accessibility Considerations
 
@@ -61,18 +61,18 @@ Below are the methods I used to test the accessibility of my application:
 1. Zoomed in the page to 200% on various screen sizes (mobile, tablet, desktop) and ensured the application was still readable and fully functional.
 2. Tested that the tab order was logical and that there were no keyboard traps (e.g., on the dialog component, checked that tab moved between the form fields from top to bottom, then to the cancel/submit buttons from left to right, then back to the first form field).
 3. Verified that all actions (add/edit/delete/complete) could be completed using only the keyboard and that the appropriate keyboard inputs could be used to control the application (e.g., Escape to close dialog, spacebar to check the checkbox, arrow keys to navigate the item menu, etc.).
-4. Turned on Mac VoiceOver and used only keyboard controls to use my application. Checked that the information being read out by the screen reader made sense and could be understood without relying on visual cues in the UI.
+4. Turned on Mac VoiceOver and used only keyboard controls to use the application. Checked that the information being read out by the screen reader made sense and could be understood without relying on visual cues in the UI.
 5. Ensured all form fields were properly labeled, and used semantic HTML tags when possible.
 
 ### Known Limitations
 
-Because due date is an optional field, I wanted to be able to quickly clear the value of that DatePicker component from MUI and reset the date to null. MUI configures this so if `clearable: true` is passed in the slot properties for the DatePicker, it adds an "X" button to clear the field. However, while testing the tab order of my application, I found this button is skipped and is not able to be focused on by pressing tab. The field can still be cleared manually using only the keyboard, but this is not as user-friendly.
+Because due date is an optional field, I wanted to be able to quickly clear the value of the DatePicker component from MUI and reset the date to null. MUI configures this so if `clearable: true` is passed in the slot properties for the DatePicker, it adds an "X" button to clear the field. However, while testing the tab order of my application, I found this button is skipped and is not able to be focused on by pressing tab. The field can still be cleared manually using only the keyboard, but this is not as user-friendly.
 
 ## Tradeoffs Made
 
 ### Using Context
 
-One tradeoff I made was opting to use React Context for cleaner, more maintainable code at the cost of unit tests being more difficult to write. My initial implementation of this application involved a lot of prop drilling, which made the code difficult to understand and harder to maintain. I discovered Context as a solution to this problem, but as a result I found it more difficult to write unit tests for my components. When I was passing state variables and functions as properties, it was easy for me to mock them in my test files and pass those to the component. But once I switched my components to using Context, I could no longer do this and needed to find a different way to get this information to my components.
+One tradeoff I made was opting to use React Context for cleaner, more maintainable code at the cost of unit tests being more difficult to write. My initial implementation of this application involved a lot of prop drilling, which made the code difficult to understand and harder to maintain. I discovered Context as a solution to this problem, but as a result I found it more difficult to write unit tests for my components. When I was passing state variables and functions as properties, it was easy for me to mock them in my test files and pass those to the component. But once I switched my components to use Context, I could no longer do this and needed to find a different way to get this information to my components.
 
 At first, the examples I found online did not work for various reasons, such as TypeErrors that could not be resolved or errors when trying to declare useState() within my test files. In the end, the approach I decided on was to set the type of my TaskContext to any. I would have liked to have kept the type specificity, but this change allowed me to essentially mock the TaskContext in my unit tests and implement some of the proposed solutions I found on sites like StackOverflow and GitHub discussions. With more time, I would like explore additional approaches to testing components that use Context and see if there is a solution that allows me to keep the typing of my TaskContext intact.
 
@@ -90,4 +90,3 @@ Below is a list of UI enhancements I would make with additional time:
 - The ability to add an optional priority marker to tasks. Tasks can be marked as low, medium, or high priority. This could be displayed in the UI through the use of symbols like exclamation points (!, !!, !!!), adding the priority text to the screen (e.g., to the left of the status + due date, so it would read "Low • To-do • 10/29/2026), or another similar approach.
 - Sort tasks by their due date from nearest to furthest. Tasks with no due date automatically get sorted to the bottom.
 - The ability to manually reorder tasks in the list.
-- When a task is marked as completed, move the task to the bottom of the task list.

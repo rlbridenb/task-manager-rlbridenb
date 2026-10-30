@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import AddTaskButton from "./components/AddTaskButton";
 import TaskContext from "./TaskContext";
@@ -6,11 +6,24 @@ import TaskDialog from "./components/TaskDialog";
 import TaskList from "./components/TaskList";
 import TaskSnackbar from "./components/TaskSnackBar";
 import "./TaskManager.scss";
+import type { TaskInfo } from "../types/types";
 
 const TaskManager = () => {
   const { taskListState, snackbarMessageState } = useContext(TaskContext);
-  const [taskList, _setTaskList] = taskListState;
+  const [taskList, setTaskList] = taskListState;
   const [snackbarMessage, _setSnackbarMessage] = snackbarMessageState;
+
+  useEffect(() => {
+    const localTaskList = localStorage.getItem("taskList");
+    if (!localTaskList) {
+      return;
+    }
+    setTaskList(
+      JSON.parse(localTaskList).sort(
+        (a: TaskInfo, b: TaskInfo) => Number(a.completed) - Number(b.completed),
+      ),
+    );
+  }, []);
 
   return (
     <>
