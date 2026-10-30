@@ -81,7 +81,7 @@ const TaskDialog = () => {
         (a: TaskInfo, b: TaskInfo) => Number(a.completed) - Number(b.completed),
       );
       setTaskList(taskListCopy);
-      localStorage.setItem("taskList", JSON.stringify(taskList));
+      localStorage.setItem("taskList", JSON.stringify(taskListCopy));
       message = "Task created";
     } catch (error) {
       message = `Error when creating task: ${error}`;
