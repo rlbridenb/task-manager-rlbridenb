@@ -81,13 +81,17 @@ const Task = ({
               Completed
             </p>
           ) : (
-            <p id="task-status" aria-label="task-status" className="bold">To-do</p>
+            <p id="task-status" aria-label="task-status" className="bold">
+              To-do
+            </p>
           )}
           {taskDueDate ? " • " : ""}
           <p aria-label="task-due-date">{taskDueDate}</p>
         </div>
         {taskDescription ? (
-          <p aria-label="task-description" className="task-description">{taskDescription}</p>
+          <p aria-label="task-description" className="task-description">
+            {taskDescription}
+          </p>
         ) : (
           ""
         )}
